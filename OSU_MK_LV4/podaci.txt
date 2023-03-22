@@ -1,0 +1,20 @@
+
+
+
+Čitanje podataka
+
+
+data = pd.read_csv('data_C02_emission.csv')
+
+data = data.drop(["Make", "Model"], axis=1)
+
+input_variables = ['Fuel Consumption City (L/100km)',
+                   'Fuel Consumption Hwy (L/100km)',
+                   'Fuel Consumption Comb (L/100km)',
+                   'Fuel Consumption Comb (mpg)',
+                   'Engine Size (L)',
+                   'Cylinders']
+
+output_variable = ['CO2 Emissions (g/km)']
+X = data[input_variables].to_numpy()
+y = data[output_variable].to_numpy()
