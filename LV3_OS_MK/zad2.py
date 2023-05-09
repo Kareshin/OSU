@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
 
 data = pd.read_csv('data_C02_emission.csv')
@@ -10,10 +11,15 @@ plt.ylabel("No. of cars in category")
 plt.show()
 
 #B
-colors = { 'X': 'blue', 'Z': 'green', 'D': 'red', 'E': 'orange', 'N': 'black' }
-data.plot.scatter(x='Fuel Consumption City (L/100km)',
-                    y='CO2 Emissions (g/km)',
-                    c=data['Fuel Type'].apply(lambda x: colors[x]), cmap ='viridis', s=10)
+
+colors=["r","b","g","k","y"]
+gas=['X','Z','D','E','N']
+
+for i in range(0,5):
+     data1=data[data['Fuel Type']==gas[i]]
+     x=np.array(data1['Fuel Consumption City (L/100km)'])
+     y=np.array(data1['CO2 Emissions (g/km)'])
+     plt.scatter(x,y, c=colors[i], s=2 )
 plt.show()
 
 #C
