@@ -34,10 +34,9 @@ audis_4_cilinder = audis[(audis['Cylinders'] == 4)]
 print("Prosječna emisija CO2 iznosi", round(audis['CO2 Emissions (g/km)'].mean(), 2), "g/km")
 
 #E
-grouped_by_cilinders_count = data.groupby("Cylinders").count()
-grouped_by_cilinders_mean = data.groupby("Cylinders").mean()
-print(grouped_by_cilinders_count["Make"])
-print(grouped_by_cilinders_mean["CO2 Emissions (g/km)"])
+evenCyl=data[(data['Cylinders'] % 2 == 0)]
+print("Vozila s parnim brojem cilindara je",len(evenCyl))
+print("Prosječna emisija CO2 iznosi", round(evenCyl['CO2 Emissions (g/km)'].mean(),2), "g/km")
 
 #F
 using_diesel = data[(data['Fuel Type'] == 'D')]
@@ -59,3 +58,4 @@ print("Postoji", manual_transmission.shape[0], "vozila s ručnim mjenjačem.")
 
 #I
 print(data.corr(numeric_only=True))
+# na dijagonali su 1 jer su jednake vrijednosti - maksimalna korelacija
