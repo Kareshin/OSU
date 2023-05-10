@@ -2,9 +2,11 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
-from sklearn.model_selection import train_test_split
+from sklearn.datasets import make_classification
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, classification_report, confusion_matrix, ConfusionMatrixDisplay
+from sklearn.metrics import ConfusionMatrixDisplay, classification_report, confusion_matrix,accuracy_score
+from sklearn.model_selection import train_test_split
+from sklearn.svm import SVC
 
 labels= {0:'Adelie', 1:'Chinstrap', 2:'Gentoo'}
 
@@ -35,8 +37,6 @@ def plot_decision_regions(X, y, classifier, resolution=0.02):
                     marker=markers[idx],
                     edgecolor = 'w',
                     label=labels[cl])
-    plt.show()
-        
 
 # ucitaj podatke
 df = pd.read_csv("penguins.csv")
@@ -65,13 +65,14 @@ input_variables = ['bill_length_mm',
                     'flipper_length_mm']
 
 X = df[input_variables].to_numpy()
-y = df[output_variable].to_numpy()[:,0]
+y = df[output_variable].to_numpy()
 
-
+y = y[:, 0] #od 2D matrice s x redaka i jednin stupcem radimo array s jednim retkom
 
 # podjela train/test
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 123)
 
+# a) stupcasti dijagram s vrstama; return_counts vraca broj unikata; classes su vrste pingvina a count njihov broj
 classes, counts_train=np.unique(y_train, return_counts=True)
 classes, counts_test=np.unique(y_test, return_counts=True)
 X_axis = np.arange(len(classes))
@@ -84,25 +85,33 @@ plt.title("Number of each class of penguins, train and test data")
 plt.legend()
 plt.show()
 
-logisticRegression = LogisticRegression(max_iter=120)
-logisticRegression.fit(X_train,y_train)
+#b)
+LogRegression_model = LogisticRegression(max_iter=120)
+LogRegression_model.fit(X_train,y_train)
 
-teta0 = logisticRegression.intercept_ #zbog broja klasa (3), ima 3 (za svaku klasu po jedan, jer OvR radi binarnih klasifikatora koliko ima klasa)(1xk dimenzije), kod binarne klasifikacije je bio 1 element(1 klasa)
-coefs = logisticRegression.coef_ 
-print('Teta0:')
-print(teta0)
-print('Parametri modela') #zbog 3 klase, ima 3 retka parametara, svaki redak za jednu klasu, i 2 stupca, svaki stupac u paru s jednom ulaznom velicinom (kXm dimenzije)
-print(coefs) #kod binarne klasifikacije je bio 1 red s 2 stupca (1 binarni klasifikator, 2 ulazne velicine)
+# c) Koja je razlika u odnosu na binarni klasifikacijski problem iz prvog zadatka?
+print(LogRegression_model.coef_)
+# [[-0.64929396 -0.12385377]
+# [ 0.75364286 -0.27793473]
+# [-0.10434889  0.40178851]]
 
-plot_decision_regions(X_train, y_train, logisticRegression)
+#1 zad
+# [[ 1.64805569 -1.57156768]]
+# U drugom primjeru ima vise parametara modela - matrica dimenzije 3x2
 
-y_prediction = logisticRegression.predict(X_test)
-disp = ConfusionMatrixDisplay(confusion_matrix(y_test,y_prediction))
-disp.plot()
-plt.title('Matrica zabune')
+# d) Podaci za ucenje su i X_train i y_train
+plot_decision_regions(X_train, y_train, LogRegression_model)
 plt.show()
-print(f'Točnost: {accuracy_score(y_test,y_prediction)}')
-print(classification_report(y_test,y_prediction))
 
+#e) Klasifikacija skupa za testiranje
+y_test_p = LogRegression_model.predict(X_test)
+print(accuracy_score(y_test,y_test_p))
 
-#dodavanjem parametra body mass, kvaliteta modela opada, dodavanjem bill_depth poraste, kao i dodavanjem oba parametra
+cm=confusion_matrix(y_test, y_test_p)
+print (" Matrica zabune : " , cm )
+disp = ConfusionMatrixDisplay ( confusion_matrix ( y_test , y_test_p ) )
+disp.plot()
+plt.show()
+
+print ( classification_report ( y_test , y_test_p ) )
+
