@@ -1,27 +1,33 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-img = plt.imread("road.jpg")
-
-#a)
-brightened_img = np.clip(img.astype(np.int32) + 50, 0, 255).astype(np.uint8)
-plt.imshow(img)
-plt.show()
-plt.imshow(brightened_img)
+img = plt.imread('road.jpg')
+img = img[:, :, 0].copy()
+plt.imshow(img, cmap="gray")
+plt.title("Cesta")
 plt.show()
 
-#b)
-height, width, unused = img.shape
-cropped_img = img[:, width // 4:width // 2, :]
-plt.imshow(cropped_img)
+#a
+lighterImg = img+150
+lighterImg[lighterImg < 150] = 255
+plt.imshow(lighterImg, cmap="gray")
+plt.title("Posvijetljena")
 plt.show()
 
-#c)
-rotated_img = np.rot90(img, k=-1)
-plt.imshow(rotated_img)
+#b
+quarterImg = img[:, int(img.shape[1]/4):int(img.shape[1]/2)]
+plt.imshow(quarterImg, cmap="gray")
+plt.title("Cetvrtina")
 plt.show()
 
-#d)
-flipped_image = np.fliplr(img)
-plt.imshow(flipped_image)
+#c
+rotatedImg = np.rot90(img, 3)
+plt.imshow(rotatedImg, cmap="gray")
+plt.title("Rotirana za 90")
+plt.show()
+
+#d
+mirrorImg = np.flip(img, axis=1)
+plt.imshow(mirrorImg, cmap="gray")
+plt.title("Zrcaljena cesta")
 plt.show()
