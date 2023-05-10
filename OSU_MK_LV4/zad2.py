@@ -2,14 +2,14 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn import datasets
-from sklearn . model_selection import train_test_split
-from sklearn . preprocessing import MinMaxScaler
-from sklearn . preprocessing import OneHotEncoder
-import sklearn . linear_model as lm
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import OneHotEncoder
+import sklearn.linear_model as lm
 from sklearn import metrics
 
 #a
-data = pd . read_csv('data_C02_emission.csv')
+data = pd.read_csv('data_C02_emission.csv')
 
 input_variables = ['Fuel Consumption City (L/100km)','Fuel Consumption Hwy (L/100km)',
                    'Fuel Consumption Comb (L/100km)','Fuel Consumption Comb (mpg)',
@@ -20,7 +20,7 @@ output_variables = ['CO2 Emissions (g/km)']
 
 # koristimo i kategoricku varijablu 'Fuel Type' pa ju moramo 1-od-K kodirat
 ohe = OneHotEncoder ()
-X_encoded = ohe . fit_transform ( data[['Fuel Type']]) . toarray ()
+X_encoded = ohe.fit_transform ( data[['Fuel Type']]) . toarray ()
 data['Fuel Type'] = X_encoded
 
 X = data[input_variables].to_numpy()
@@ -36,8 +36,8 @@ plt.show()
 
 
 # d
-linearModel = lm . LinearRegression ()
-linearModel . fit ( X_train , y_train )
+linearModel = lm.LinearRegression ()
+linearModel.fit( X_train , y_train )
 
 print(linearModel.coef_)
 
