@@ -31,7 +31,7 @@ print("Prosječna emisija CO2 je", round(eng_size_interval['CO2 Emissions (g/km)
 audis = data[(data['Make'] == "Audi")]
 print("Postoji", audis.shape[0], "mjerenja za proizvođača Audi.")
 audis_4_cilinder = audis[(audis['Cylinders'] == 4)]
-print("Prosječna emisija CO2 iznosi", round(audis['CO2 Emissions (g/km)'].mean(), 2), "g/km")
+print("Prosječna emisija CO2 iznosi", round(audis_4_cilinder['CO2 Emissions (g/km)'].mean(), 2), "g/km")
 
 #E
 evenCyl=data[(data['Cylinders'] % 2 == 0)]
