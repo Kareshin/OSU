@@ -194,3 +194,9 @@ plt.xlabel('$x_1$')
 plt.ylabel('$x_2$')
 plt.title('Grupirani podatkovni primjeri')
 plt.show()
+
+#neispravnim postavljanjem broja k dobija se previše ili premalo grupa
+#kmeans kod nekih primjera ne grupira kako treba jer pretpostavlja da su grupe sferične, podjednake velicine i slicne gustoce,
+#ne radi dobro s grupama nepravilnih oblika (jer radi na principu udaljenosti) (uz primjenu optimalnih vrijednosti k)
+#kada flagc=1, radi dobro jer su grupe sfericne
+
